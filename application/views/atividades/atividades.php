@@ -14,78 +14,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container-fluid">
 	<div class="well">
-	<div class="row">
-		<div class="col-md-3">
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" class="form-control">
-                    <option value="0">Selecione o Status</option>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                </select>
-            </div>
-			<button type="button" class="btn btn-primary">Buscar</button>
-		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<?php echo form_open("atividades/index",array('id' => 'busca'));?>
+						<?php
+							echo form_label('Status','codigo_status');
+							echo form_dropdown(array('class'=>'form-control','id' => 'codigo_status','name' => 'codigo_status'),$status);
+						?>
+					</div>  
+					<?php echo form_submit(null,'Buscar',array('class' => 'btn btn-success'));?>
+				<?php echo form_close();?>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Product
-						</th>
-						<th>
-							Payment Taken
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>TB - Monthly</td>
-						<td>01/04/2012</td>
-						<td>Default</td>
-					</tr>
-					<tr class="active">
-						<td>1</td>
-						<td>TB - Monthly</td>
-						<td>01/04/2012</td>
-						<td>Approved</td>
-					</tr>
-					<tr class="success">
-						<td>2</td>
-						<td>TB - Monthly</td>
-						<td>02/04/2012</td>
-						<td>Declined</td>
-					</tr>
-					<tr class="warning">
-						<td>3</td>
-						<td>TB - Monthly</td>
-						<td>03/04/2012</td>
-						<td>Pending</td>
-					</tr>
-					<tr class="danger">
-						<td>4</td>
-						<td>TB - Monthly</td>
-						<td>04/04/2012</td>
-						<td>Call in to confirm</td>
-					</tr>
-				</tbody>
-			</table> 
-			<a href="<?php echo base_url("atividades/incluir")?>" class="btn btn-success">Incluir atividade</a>
-		</div>
-	</div>
+	<div id="listagem"></div>
 </div>
 
 </body>
 </html>
+<script language="javascript">
+     $(document).ready(function () {
+        $.ajax({
+			url: '<?= base_url(); ?>' + 'atividades/listagem',
+			type: 'POST',
+			data: $("#busca").serialize(),
+			success: function(msg){
+				$("#listagem").html(msg);
+			}
+		});
+    });
+</script>
