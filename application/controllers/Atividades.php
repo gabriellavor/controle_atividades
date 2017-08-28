@@ -103,6 +103,7 @@ class Atividades extends CI_Controller {
             $this->form_validation->set_message('data_inicio','Data Inicio Inválida (dd/mm/aaaa)'); 
             return false;
         }
+        return true;
     }
 
     function data_fim($data){
@@ -119,6 +120,7 @@ class Atividades extends CI_Controller {
                 return false;
             }
         }
+        return true;
     }
 
     function listagem(){
